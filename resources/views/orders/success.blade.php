@@ -57,7 +57,7 @@
                     </table>
                 </div>
 
-                <p class="mt-4">Setelah transfer, kirim bukti ke WhatsApp <a href="https://wa.me/6281234567890">+62 812-3456-7890</a> agar pesanan segera kami proses.</p>
+                <p class="mt-4">Setelah transfer, kirim bukti ke WhatsApp <a href="${env('NOMOR_WA')}" >Bu Dewi</a> agar pesanan segera kami proses.</p>
                 @endif
                 {{-- ==================================== --}}
 

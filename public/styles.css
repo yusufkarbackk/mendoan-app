@@ -1,0 +1,5 @@
+.navbar-logo {
+    height: 40px;      /* pick the visual height you want */
+    width: auto;       /* let width follow the original ratio */
+    display: block;    /* avoid inline whitespace quirks */
+}

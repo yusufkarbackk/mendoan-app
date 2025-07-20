@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreOrderRequest;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
@@ -12,26 +13,16 @@ class OrderController extends Controller
         return view('orders.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreOrderRequest $request)
     {
-        $validated = $request->validate([
-            'nomor'         => 'required|string|max:20',
-            'alamat'       => 'required|string|max:255',
-            'quantity'      => 'required|integer|min:1',
-            'notes'         => 'nullable|string|max:255',
-            'payment_method'=> 'required|string|in:cash,transfer',
-        ]);
+        //dd($request->all()); // debug output, remove in production
+        $data = $request->validated();
 
-        $order = Order::create([
-            'nomor'         => $validated['nomor'],
-            'alamat'        => $validated['alamat'],
-            'quantity'      => $validated['quantity'],
-            'catatan'       => $validated['notes'] ?? null,
-            'payment_method'=> $validated['payment_method'],  // default payment method
-            'total'         => $validated['quantity'] * 14000, // total will be calculated later
-        ]);  
+        $data['total'] = $data['quantity'] * 14000;
         //dd($order->toArray()); // debug output, remove in production
         // pastikan model Order fillable
+
+        $order = Order::create($data);
         return redirect()->route('orders.success', ['order' => $order->id]);
     }
 
@@ -43,13 +34,13 @@ class OrderController extends Controller
             'bankAccounts' => [
                 [
                     'bank'   => 'BCA',
-                    'number' => '1234567890',
-                    'name'   => 'PT Warung Kita',
+                    'number' => env('NOMOR_REKENING'),
+                    'name'   => 'Dewi Trimaisari',
                 ],
                 [
-                    'bank'   => 'Mandiri',
-                    'number' => '9876543210',
-                    'name'   => 'PT Warung Kita',
+                    'bank'   => 'Gopay',
+                    'number' => env('NOMOR_GOPAY'),
+                    'name'   => 'Yusuf Rafif Karback',
                 ],
             ],
         ]);
